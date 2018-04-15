@@ -23,9 +23,11 @@ MpvuePlugin.prototype.apply = function(compiler) {
             return;
           }
           try {
-            let wxss = compilation.assets[wxssFile].source();
+            if (compilation.assets[wxssFile]) {
+              let wxss = compilation.assets[wxssFile].source();
               wxss = `@import "/${commonWxssFile}";\n${wxss}`;
               compilation.assets[wxssFile].source = () => wxss;
+            }
           } catch (error) {
             console.error(error, wxssFile)
           }
