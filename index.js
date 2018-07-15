@@ -11,7 +11,6 @@ MpvuePlugin.prototype.apply = function(compiler) {
         commonsChunkNames = commonsChunkNames.concat(chunkNames);
       }
     })
-    let pages = Object.keys(entry);
     compilation.chunks.forEach(commonChunk => {
       const { files, chunks: childChunks, name } = commonChunk;
       let commonWxssFile = files.find(item => item.endsWith('.wxss'));
