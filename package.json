@@ -22,5 +22,8 @@
     "url": "https://github.com/mpvue/webpack-mpvue-asset-plugin/issues"
   },
   "homepage": "https://github.com/mpvue/webpack-mpvue-asset-plugin#readme",
-  "description": ""
+  "description": "",
+  "dependencies": {
+    "relative": "^3.0.2"
+  }
 }
