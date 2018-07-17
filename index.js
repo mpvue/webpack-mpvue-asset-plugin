@@ -1,7 +1,9 @@
+const path = require('path');
+const relative = require('relative');
+
 function MpvuePlugin() {}
 
 MpvuePlugin.prototype.apply = function(compiler) {
-  const {options: {entry, plugins}} = compiler;
   compiler.plugin('emit', function(compilation, callback) {
     let commonsChunkNames = [];
     // 获取所有的 chunk name
@@ -15,7 +17,7 @@ MpvuePlugin.prototype.apply = function(compiler) {
     compilation.chunks.forEach(commonChunk => {
       const { files, chunks: childChunks, name } = commonChunk;
       let commonWxssFile = files.find(item => item.endsWith('.wxss'));
-      
+
       if (commonsChunkNames.indexOf(name) > -1 && commonWxssFile) {
         childChunks.forEach(item => {
           let wxssFile = item.files.find(item => item.endsWith('.wxss'));
@@ -30,8 +32,8 @@ MpvuePlugin.prototype.apply = function(compiler) {
             console.error(error, wxssFile)
           }
         })
-      }
-    });
+      })
+    })
     callback();
   });
 };
