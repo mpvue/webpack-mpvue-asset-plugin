@@ -1,6 +1,6 @@
 {
   "name": "webpack-mpvue-asset-plugin",
-  "version": "0.0.2",
+  "version": "0.1.0",
   "main": "index.js",
   "directories": {
     "lib": "lib"
@@ -22,5 +22,9 @@
     "url": "https://github.com/mpvue/webpack-mpvue-asset-plugin/issues"
   },
   "homepage": "https://github.com/mpvue/webpack-mpvue-asset-plugin#readme",
-  "description": ""
+  "description": "",
+  "dependencies": {
+    "relative": "^3.0.2",
+    "upath": "^1.1.0"
+  }
 }
