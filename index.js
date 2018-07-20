@@ -1,4 +1,5 @@
 const path = require('path');
+const upath = require('upath');
 const relative = require('relative');
 
 function MpvuePlugin() {}
@@ -15,9 +16,10 @@ MpvuePlugin.prototype.apply = function(compiler) {
         chunks.reverse().forEach(chunk => {
           chunk.files.forEach(childFile => {
             if (path.extname(childFile) === extname && compilation.assets[filePath]) {
-              content = extname === '.wxss' ? 
-              `@import "${relative(filePath, childFile)}";\n${content}`
-              : `require("${relative(filePath, childFile)}");\n${content}`;
+              const relativePath = upath.normalize(relative(filePath, childFile))
+              content = extname === '.wxss' ?
+              `@import "${relativePath}";\n${content}`
+              : `require("${relativePath}");\n${content}`;
             }
           })
           compilation.assets[filePath].source = () => content;
