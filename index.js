@@ -12,18 +12,20 @@ MpvuePlugin.prototype.apply = function(compiler) {
       const entryChunk = chunks.pop();
       entryChunk.files.forEach(filePath => {
         const extname = path.extname(filePath);
-        let content = compilation.assets[filePath].source();
-        chunks.reverse().forEach(chunk => {
-          chunk.files.forEach(childFile => {
-            if (path.extname(childFile) === extname && compilation.assets[filePath]) {
-              const relativePath = upath.normalize(relative(filePath, childFile))
-              content = extname === '.wxss' ?
-              `@import "${relativePath}";\n${content}`
-              : `require("${relativePath}");\n${content}`;
-            }
+        if (extname === '.js' || extname === '.wxss') {
+          let content = compilation.assets[filePath].source();
+          chunks.reverse().forEach(chunk => {
+            chunk.files.forEach(childFile => {
+              if (path.extname(childFile) === extname && compilation.assets[filePath]) {
+                const relativePath = upath.normalize(relative(filePath, childFile))
+                content = extname === '.wxss' ?
+                `@import "${relativePath}";\n${content}`
+                : `require("${relativePath}");\n${content}`;
+              }
+            })
+            compilation.assets[filePath].source = () => content;
           })
-          compilation.assets[filePath].source = () => content;
-        })
+        }
       })
     })
     callback();
