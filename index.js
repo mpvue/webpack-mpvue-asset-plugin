@@ -16,10 +16,18 @@ MpvuePlugin.prototype.apply = function(compiler) {
         chunks.reverse().forEach(chunk => {
           chunk.files.forEach(childFile => {
             if (path.extname(childFile) === extname && compilation.assets[filePath]) {
-              const relativePath = upath.normalize(relative(filePath, childFile))
-              content = extname === '.wxss' ?
-              `@import "${relativePath}";\n${content}`
-              : `require("${relativePath}");\n${content}`;
+              let relativePath = upath.normalize(relative(filePath, childFile))
+
+              // 百度小程序js引用不支持绝对路径，改为相对路径
+              if (extname === '.js' && !/^\.(\.)?\//.test(relativePath)) {
+                relativePath = `./${relativePath}`;
+              }
+
+              if (/^(\.wxss)|(\.css)$/.test(extname)) {
+                content = `@import "${relativePath}";\n${content}`;
+              } else {
+                content = `require("${relativePath}");\n${content}`;
+              }
             }
           })
           compilation.assets[filePath].source = () => content;
