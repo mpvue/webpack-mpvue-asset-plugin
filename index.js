@@ -2,7 +2,7 @@ const path = require('path')
 const upath = require('upath')
 const relative = require('relative')
 
-const emitHandel = (compilation, callback) => {
+const emitHandle = (compilation, callback) => {
   Object.keys(compilation.entrypoints).forEach(key => {
     const { chunks } = compilation.entrypoints[key]
     const entryChunk = chunks.pop()
@@ -36,6 +36,6 @@ const emitHandel = (compilation, callback) => {
 }
 
 function MpvuePlugin() {}
-MpvuePlugin.prototype.apply = compiler => compiler.plugin('emit', emitHandel)
+MpvuePlugin.prototype.apply = compiler => compiler.plugin('emit', emitHandle)
 
 module.exports = MpvuePlugin
