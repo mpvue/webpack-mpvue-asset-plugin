@@ -32,7 +32,7 @@ const emitHandle = (compilation, callback) => {
             if (/^(\.wxss)|(\.ttss)|(\.acss)|(\.css)$/.test(extname)) {
               relativePath = getRelativePath(relativePath)
               content = `@import "${relativePath}";\n${content}`
-            } else {
+            } else if (!(/^\.map$/.test(extname))) {
               content = `require("${relativePath}")\n${content}`
             }
           }
